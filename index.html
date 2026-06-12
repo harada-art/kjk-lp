@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>介護情報基盤 初期設定サポートサービス｜株式会社スマート</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #1a5fb4;
+      --primary-dark: #134a8e;
+      --primary-light: #dbeafe;
+      --primary-soft: #eff6ff;
+      --accent: #f5a623;
+      --accent-dark: #d48c1a;
+      --accent-light: #fef3dc;
+      --dark: #1e293b;
+      --medium-gray: #64748b;
+      --light-gray: #94a3b8;
+      --border: #e2e8f0;
+      --bg: #f0f7ff;
+      --white: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Plus Jakarta Sans", "Inter", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+      color: var(--dark);
+      line-height: 1.75;
+      font-size: 15px;
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== FLOAT ANIMATIONS ===== */
+    @keyframes floatUp {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-18px); }
+    }
+    @keyframes floatUpSlow {
+      0%, 100% { transform: translateY(0px) rotate(-2deg); }
+      50%       { transform: translateY(-22px) rotate(2deg); }
+    }
+    @keyframes floatHero {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50%       { transform: translateY(-12px) scale(1.01); }
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: #1e3a5f;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header::after {
+      content: "";
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #5b9bd5, #2946f3, var(--accent));
+    }
+    .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .logo {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+      line-height: 1;
+    }
+    .logo-img {
+      height: 26px;
+      width: auto;
+      display: block;
+    }
+    .logo span {
+      font-size: 10px;
+      display: block;
+      color: rgba(255,255,255,.5);
+      font-weight: 400;
+      letter-spacing: .04em;
+    }
+    nav { display: flex; align-items: center; gap: 28px; }
+    nav a {
+      font-size: 13px;
+      color: rgba(255,255,255,.7);
+      font-weight: 500;
+      transition: color .2s;
+    }
+    nav a:hover { color: var(--white); }
+    .header-cta {
+      background: var(--accent) !important;
+      color: var(--white) !important;
+      padding: 9px 20px !important;
+      border-radius: 6px !important;
+      font-weight: 700 !important;
+      font-size: 13px !important;
+      transition: background .2s !important;
+    }
+    .header-cta:hover { background: var(--accent-dark) !important; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(145deg, #e0effd 0%, #dbeafe 45%, #eff6ff 80%, #f8fbff 100%);
+      padding: 80px 24px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Large glow blobs */
+    .hero-bg-deco { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .hero-circle-1 {
+      position: absolute;
+      top: -120px; right: -80px;
+      width: 500px; height: 500px;
+      background: rgba(91,155,213,.18);
+      border-radius: 50%;
+      filter: blur(80px);
+    }
+    .hero-circle-2 {
+      position: absolute;
+      bottom: 40px; left: -100px;
+      width: 380px; height: 380px;
+      background: rgba(26,95,180,.12);
+      border-radius: 50%;
+      filter: blur(70px);
+    }
+    .hero-accent-dot {
+      position: absolute;
+      top: 20%; left: 55%;
+      width: 180px; height: 180px;
+      background: rgba(245,166,35,.12);
+      border-radius: 50%;
+      filter: blur(50px);
+    }
+    .hero-dots-bg {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(26,95,180,.1) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 70% 80% at 20% 50%, black 20%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 80% at 20% 50%, black 20%, transparent 80%);
+    }
+
+    .hero-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-text { text-align: left; }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(26,95,180,.08);
+      border: 1px solid rgba(26,95,180,.2);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 100px;
+      letter-spacing: .06em;
+      margin-bottom: 24px;
+    }
+    .hero-tag::before {
+      content: "";
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .hero h1 {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(26px, 3.2vw, 44px);
+      font-weight: 800;
+      line-height: 1.4;
+      margin-bottom: 20px;
+      letter-spacing: -.01em;
+      color: var(--dark);
+      word-break: keep-all;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--primary);
+      position: relative;
+    }
+    .hero h1 em::after {
+      content: "";
+      position: absolute;
+      bottom: 2px; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 2px;
+    }
+    .hero-sub {
+      font-size: 15px;
+      color: var(--medium-gray);
+      max-width: 440px;
+      margin-bottom: 28px;
+      line-height: 1.85;
+    }
+    .hero-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .hero-badge {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--dark);
+      box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    }
+    .hero-badge::before { content: "✓ "; color: var(--primary); }
+    .btn-primary {
+      display: inline-block;
+      background: var(--primary);
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 700;
+      padding: 15px 36px;
+      border-radius: 8px;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      letter-spacing: .02em;
+      box-shadow: 0 4px 16px rgba(26,95,180,.3);
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(26,95,180,.35);
+    }
+    .btn-note { margin-top: 10px; font-size: 12px; color: var(--light-gray); }
+
+    /* Hero full-width CTA */
+    .hero-cta-center {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      padding: 36px 24px 0;
+    }
+
+    /* Hero image */
+    .hero-img-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero-illust {
+      width: 100%;
+      max-width: 500px;
+      animation: floatHero 5s ease-in-out infinite;
+      filter: drop-shadow(0 16px 40px rgba(26,95,180,.15));
+    }
+
+    /* Wave bottom */
+    .hero-wave { position: relative; z-index: 2; margin-top: 60px; line-height: 0; }
+    .hero-wave svg { display: block; width: 100%; }
+
+    /* ===== SECTION COMMON ===== */
+    section { padding: 88px 24px; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .section-label {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      text-align: center;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 800;
+      line-height: 1.35;
+      margin-bottom: 56px;
+      color: var(--dark);
+      letter-spacing: -.02em;
+    }
+    .section-title span { color: var(--primary); }
+
+    /* ===== PROBLEMS ===== */
+    .problems { background: var(--bg); }
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .problem-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 22px;
+      text-align: center;
+      transition: box-shadow .2s;
+    }
+    .problem-card:hover { box-shadow: 0 4px 20px rgba(26,95,180,.1); }
+    .problem-icon { font-size: 34px; margin-bottom: 14px; display: block; }
+    .problem-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 8px; line-height: 1.5; }
+    .problem-card p { font-size: 13px; color: var(--medium-gray); line-height: 1.7; }
+    .problem-bottom {
+      margin-top: 40px;
+      background: linear-gradient(135deg, #1a5fb4 0%, #2040c8 55%, #3b82f6 100%);
+      color: var(--white);
+      border-radius: 16px;
+      padding: 36px 40px;
+      text-align: center;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.75;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(26,95,180,.25);
+    }
+    .problem-bottom::before {
+      content: "";
+      position: absolute; top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      background: rgba(255,255,255,.08);
+      border-radius: 50%;
+    }
+    .problem-bottom::after {
+      content: "";
+      position: absolute; bottom: -30px; left: -30px;
+      width: 140px; height: 140px;
+      background: rgba(245,166,35,.15);
+      border-radius: 50%;
+    }
+    .problem-bottom em { font-style: normal; color: #fcd34d; }
+
+    /* ===== FEATURES ===== */
+    .features { background: var(--white); }
+    .feature-list { display: grid; gap: 16px; }
+    .feature-item {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 24px;
+      align-items: start;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 32px;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .feature-item:hover { box-shadow: 0 6px 24px rgba(26,95,180,.1); transform: translateY(-2px); }
+    .feature-num {
+      width: 52px; height: 52px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 900;
+      flex-shrink: 0;
+      font-family: "Inter", sans-serif;
+    }
+    .feature-item h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; padding-top: 4px; }
+    .feature-item p { font-size: 14px; color: var(--medium-gray); line-height: 1.75; }
+
+    /* ===== VISUAL SECTION (浮遊イラスト) ===== */
+    .visual-section {
+      background: linear-gradient(180deg, var(--white) 0%, var(--bg) 100%);
+      padding: 80px 24px;
+      overflow: hidden;
+    }
+    .visual-wrap {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 56px;
+      align-items: center;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .visual-main-img {
+      animation: floatUp 3.8s ease-in-out infinite;
+      filter: drop-shadow(0 20px 40px rgba(26,95,180,.18));
+      width: 100%;
+      max-width: 480px;
+      display: block;
+      margin: 0 auto;
+    }
+    .visual-right {
+      position: relative;
+    }
+    .visual-plane-wrap {
+      position: absolute;
+      top: -50px; right: -20px;
+      width: 130px;
+      animation: floatUpSlow 4.5s ease-in-out infinite 0.6s;
+      filter: drop-shadow(0 10px 20px rgba(91,155,213,.25));
+    }
+    .visual-plane-wrap img { width: 100%; }
+    .visual-content { padding-top: 16px; }
+    .visual-content .v-tag {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 100px;
+      letter-spacing: .06em;
+      margin-bottom: 18px;
+    }
+    .visual-content h3 {
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 800;
+      line-height: 1.4;
+      margin-bottom: 16px;
+      letter-spacing: -.01em;
+    }
+    .visual-content h3 span { color: var(--primary); }
+    .visual-content p {
+      font-size: 14px;
+      color: var(--medium-gray);
+      line-height: 1.85;
+      margin-bottom: 28px;
+    }
+    .btn-outline {
+      display: inline-block;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 11px 28px;
+      border-radius: 8px;
+      transition: background .2s, color .2s;
+      letter-spacing: .02em;
+    }
+    .btn-outline:hover { background: var(--primary); color: var(--white); }
+
+    /* ===== SERVICE ===== */
+    .service { background: var(--bg); }
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+    }
+    .service-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 20px;
+      text-align: center;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .service-card:hover { box-shadow: 0 8px 24px rgba(26,95,180,.1); transform: translateY(-3px); }
+    .service-card .icon { font-size: 36px; margin-bottom: 14px; display: block; }
+    .service-card h3 { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+    .service-card p { font-size: 12px; color: var(--medium-gray); line-height: 1.65; }
+
+    /* ===== FLOW ===== */
+    .flow { background: var(--white); }
+    .flow-steps { display: flex; flex-direction: column; }
+    .flow-step {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 24px;
+      align-items: start;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .flow-step:last-child { border-bottom: none; }
+    .step-num-wrap { text-align: center; }
+    .step-circle {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #3b82f6);
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700;
+      flex-direction: column;
+      margin: 0 auto;
+      line-height: 1.2;
+      font-family: "Inter", sans-serif;
+      box-shadow: 0 4px 12px rgba(26,95,180,.25);
+    }
+    .step-circle .step-n { font-size: 20px; font-weight: 800; }
+    .step-body h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; padding-top: 12px; }
+    .step-body p { font-size: 13px; color: var(--medium-gray); line-height: 1.75; }
+
+    /* ===== PRICE ===== */
+    .price { background: var(--bg); }
+    .price-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 560px; background: var(--white); }
+    thead tr { background: linear-gradient(90deg, #1a5fb4, #2946f3); color: var(--white); }
+    thead th {
+      padding: 16px 24px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    thead th:first-child { border-radius: 12px 0 0 0; }
+    thead th:last-child  { border-radius: 0 12px 0 0; }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--bg); }
+    tbody td { padding: 16px 24px; }
+    tbody td:last-child { font-weight: 700; color: var(--primary); white-space: nowrap; }
+    .price-note { margin-top: 16px; font-size: 12px; color: var(--medium-gray); padding: 0 4px; }
+    .price-note li { margin-left: 16px; list-style: disc; line-height: 2; }
+
+    /* ===== FAQ ===== */
+    .faq { background: var(--white); }
+    .faq-list { display: flex; flex-direction: column; gap: 10px; }
+    details {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: box-shadow .2s;
+    }
+    details[open] { box-shadow: 0 4px 16px rgba(26,95,180,.08); }
+    summary {
+      background: var(--white);
+      padding: 20px 24px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 14px;
+      list-style: none;
+      user-select: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::before {
+      content: "Q";
+      background: var(--primary-light);
+      color: var(--primary);
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 800;
+      flex-shrink: 0;
+      font-family: "Inter", sans-serif;
+    }
+    summary::after {
+      content: "+";
+      margin-left: auto;
+      font-size: 20px;
+      color: var(--light-gray);
+      font-weight: 300;
+      font-family: "Inter", sans-serif;
+      line-height: 1;
+    }
+    details[open] summary::after { content: "−"; }
+    details[open] summary { border-bottom: 1px solid var(--border); }
+    .faq-answer {
+      padding: 20px 24px 20px 68px;
+      font-size: 14px;
+      color: var(--medium-gray);
+      line-height: 1.8;
+      background: var(--white);
+    }
+
+    /* ===== CONTACT ===== */
+    .contact {
+      background: linear-gradient(135deg, #0f3460 0%, #1a5fb4 40%, #2946f3 70%, #5b9bd5 100%);
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    .contact::before {
+      content: "";
+      position: absolute; top: -100px; right: -80px;
+      width: 500px; height: 500px;
+      background: rgba(91,155,213,.18);
+      border-radius: 50%; filter: blur(100px);
+      pointer-events: none;
+    }
+    .contact::after {
+      content: "";
+      position: absolute; bottom: -80px; left: -60px;
+      width: 360px; height: 360px;
+      background: rgba(245,166,35,.12);
+      border-radius: 50%; filter: blur(80px);
+      pointer-events: none;
+    }
+    .contact .container { position: relative; z-index: 1; }
+    .contact .section-title { color: var(--white); }
+    .contact .section-label { color: #93c5fd; }
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .contact-info h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; line-height: 1.5; }
+    .contact-info p { font-size: 14px; color: rgba(255,255,255,.75); margin-bottom: 28px; line-height: 1.85; }
+    .contact-tel {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 12px;
+      padding: 22px 26px;
+      backdrop-filter: blur(8px);
+    }
+    .contact-tel .tel-label { font-size: 11px; color: rgba(255,255,255,.6); margin-bottom: 6px; letter-spacing: .06em; }
+    .contact-tel .tel-num { font-size: 28px; font-weight: 800; letter-spacing: .02em; font-family: "Inter", sans-serif; }
+    .contact-tel .tel-hours { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 6px; }
+    form {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 36px 32px;
+      color: var(--dark);
+    }
+    .form-group { margin-bottom: 18px; }
+    label {
+      display: block; font-size: 12px; font-weight: 700;
+      margin-bottom: 6px; color: var(--dark); letter-spacing: .02em;
+    }
+    .required {
+      background: #ef4444; color: var(--white);
+      font-size: 10px; padding: 1px 6px;
+      border-radius: 4px; margin-left: 6px;
+      vertical-align: middle; font-weight: 600;
+    }
+    input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--dark);
+      transition: border-color .2s, box-shadow .2s;
+      background: var(--white);
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(26,95,180,.1);
+    }
+    textarea { resize: vertical; min-height: 100px; }
+    .form-submit {
+      width: 100%;
+      background: var(--primary);
+      color: var(--white);
+      border: none; border-radius: 8px;
+      padding: 14px; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: background .2s;
+      font-family: inherit; letter-spacing: .03em;
+    }
+    .form-submit:hover { background: var(--primary-dark); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: linear-gradient(180deg, #0a1f4d 0%, #0f172a 100%);
+      color: rgba(255,255,255,.45);
+      padding: 48px 24px;
+      text-align: center;
+      border-top: 1px solid rgba(26,95,180,.3);
+    }
+    .footer-logo { font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 10px; letter-spacing: -.01em; }
+    .footer-links {
+      display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 18px 0;
+    }
+    .footer-links a { font-size: 12px; color: rgba(255,255,255,.4); transition: color .2s; }
+    .footer-links a:hover { color: rgba(255,255,255,.8); }
+    .footer-copy { font-size: 11px; margin-top: 18px; letter-spacing: .04em; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      nav { display: none; }
+      .hero-layout { grid-template-columns: 1fr; text-align: center; }
+      .hero-text { order: 1; }
+      .hero-img-wrap { order: 2; }
+      .hero-badges { justify-content: center; }
+      .hero-sub { margin-left: auto; margin-right: auto; }
+      .visual-wrap { grid-template-columns: 1fr; }
+      .visual-plane-wrap { position: static; width: 90px; margin: 0 auto 20px; }
+      .contact-wrap { grid-template-columns: 1fr; }
+      .feature-item { grid-template-columns: 1fr; }
+      .feature-num { margin: 0 0 12px; }
+      .flow-step { grid-template-columns: 60px 1fr; }
+      section { padding: 64px 20px; }
+    }
+
+    [id] { scroll-margin-top: 68px; }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <img src="images/__smart-logo①-white.png" alt="株式会社スマート" class="logo-img">
+      <span>介護情報基盤 初期設定サポートサービス</span>
+    </div>
+    <nav>
+      <a href="#service">サービス内容</a>
+      <a href="#flow">ご利用の流れ</a>
+      <a href="#price">料金表</a>
+      <a href="#faq">よくある質問</a>
+      <a href="#contact" class="header-cta">お問い合わせ</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <!-- 背景装飾 -->
+  <div class="hero-bg-deco">
+    <div class="hero-circle-1"></div>
+    <div class="hero-circle-2"></div>
+    <div class="hero-accent-dot"></div>
+    <div class="hero-dots-bg"></div>
+  </div>
+
+  <!-- 2カラムレイアウト -->
+  <div class="hero-layout">
+    <div class="hero-text">
+      <div class="hero-tag">介護情報基盤 対応支援</div>
+      <h1>介護情報基盤の初期設定、<em>まるごとお任せください。</em></h1>
+      <p class="hero-sub">
+        複雑なシステム設定に悩む時間は不要です。株式会社スマートが初期設定の全工程を代行し、スムーズな運用開始をサポートします。
+      </p>
+      <div class="hero-badges">
+        <div class="hero-badge">設定作業を完全代行</div>
+        <div class="hero-badge">介護現場の業務を熟知</div>
+        <div class="hero-badge">導入後のフォロー付き</div>
+      </div>
+    </div>
+
+    <div class="hero-img-wrap">
+      <img src="images/27181796.png" alt="介護情報基盤 DXイメージ" class="hero-illust">
+    </div>
+  </div>
+
+  <!-- 全幅中央CTA -->
+  <div class="hero-cta-center">
+    <a href="#contact" class="btn-primary">無料相談・お問い合わせはこちら</a>
+    <p class="btn-note">※ お気軽にご相談ください。費用のご案内もいたします。</p>
+  </div>
+
+  <!-- 波形ディバイダー -->
+  <div class="hero-wave">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 72" preserveAspectRatio="none">
+      <path d="M0,40 C360,72 720,8 1080,48 C1260,68 1380,36 1440,20 L1440,72 L0,72 Z" fill="#f0f7ff"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ===== PROBLEMS ===== -->
+<section class="problems" id="problems">
+  <div class="container">
+    <div class="section-label">こんなお困りはありませんか？</div>
+    <h2 class="section-title">介護情報基盤の初期設定で<span>よくあるお悩み</span></h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">😰</div>
+        <h3>手順が複雑で<br>どこから手をつければ…</h3>
+        <p>マニュアルを読んでも設定手順が難解で、担当者が途方に暮れてしまう。</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">⏰</div>
+        <h3>通常業務が忙しく<br>設定に時間をかけられない</h3>
+        <p>日常の介護業務に追われ、システム設定に割ける時間がほとんどない。</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">💻</div>
+        <h3>ITに詳しいスタッフが<br>施設にいない</h3>
+        <p>システム担当者が不在で、ネットワーク設定や端末設定に自信が持てない。</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🗓️</div>
+        <h3>期限が迫っているのに<br>進捗が見えない</h3>
+        <p>いつまでに何を完了すればよいか分からず、不安なまま時間だけが過ぎていく。</p>
+      </div>
+    </div>
+    <div class="problem-bottom">
+      そのお悩み、<em>株式会社スマートが解決します。</em><br>
+      初期設定の全工程を専門スタッフが代行するから、<em>現場の負担ゼロ</em>で導入完了。
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-label">選ばれる理由</div>
+    <h2 class="section-title">スマートが選ばれる<span>3つの強み</span></h2>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-num">1</div>
+        <div>
+          <h3>介護現場を知るプロが対応</h3>
+          <p>介護業務の実態を深く理解したスタッフが担当するため、現場の運用フローに沿った最適な設定が可能です。設定後の操作説明も丁寧に行い、スタッフ全員がすぐに使い始められる状態でお渡しします。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-num">2</div>
+        <div>
+          <h3>初期設定を一括代行でスピード導入</h3>
+          <p>アカウント作成から端末設定、マスタデータの登録まで、煩雑な初期設定を一括してお引き受けします。施設スタッフが設定作業に関わる時間を最小化し、導入までの期間を大幅に短縮します。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-num">3</div>
+        <div>
+          <h3>導入後も安心のアフターサポート</h3>
+          <p>設定完了後も疑問や不安が生じたときはいつでもご相談いただけます。運用開始直後の不安定な時期も専任スタッフがしっかりとフォローし、安定した運用を継続的にサポートします。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VISUAL FLOATING SECTION ===== -->
+<section class="visual-section">
+  <div class="container">
+    <div class="section-label">導入後のイメージ</div>
+    <h2 class="section-title">設定完了後は、<span>すぐに使える状態</span>でお渡し</h2>
+    <div class="visual-wrap">
+      <!-- 浮遊イラスト1：ダッシュボード -->
+      <div>
+        <img src="images/27181650.png" alt="データ管理ダッシュボード" class="visual-main-img">
+      </div>
+      <!-- テキスト + 浮遊イラスト2：紙飛行機 -->
+      <div class="visual-right">
+        <div class="visual-plane-wrap">
+          <img src="images/27181668.png" alt="スムーズな導入">
+        </div>
+        <div class="visual-content">
+          <div class="v-tag">SETUP COMPLETE</div>
+          <h3>確認も簡単、<br><span>運用もスムーズ。</span></h3>
+          <p>
+            初期設定が完了したら、データ確認・スタッフ管理・利用者情報の閲覧がすぐにスタートできます。複雑な操作は不要。導入後も弊社がサポートするので、安心して現場業務に集中できます。
+          </p>
+          <a href="#contact" class="btn-outline">詳しく相談する</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICE ===== -->
+<section class="service" id="service">
+  <div class="container">
+    <div class="section-label">サービス内容</div>
+    <h2 class="section-title">初期設定代行の<span>主な対応内容</span></h2>
+    <div class="service-grid">
+      <div class="service-card">
+        <div class="icon">🔑</div>
+        <h3>アカウント作成・設定</h3>
+        <p>管理者アカウントの作成から、スタッフ別の権限設定まで一括対応します。</p>
+      </div>
+      <div class="service-card">
+        <div class="icon">🖥️</div>
+        <h3>端末・ネットワーク設定</h3>
+        <p>タブレットやPC等の利用端末の設定と、施設内ネットワーク接続の確認を行います。</p>
+      </div>
+      <div class="service-card">
+        <div class="icon">📋</div>
+        <h3>マスタデータ登録</h3>
+        <p>利用者情報・事業所情報・サービス種別など、運用に必要なデータを登録します。</p>
+      </div>
+      <div class="service-card">
+        <div class="icon">🔗</div>
+        <h3>既存システムとの連携確認</h3>
+        <p>介護ソフトや関連システムとの連携設定・動作確認をサポートします。</p>
+      </div>
+      <div class="service-card">
+        <div class="icon">📘</div>
+        <h3>操作説明・研修サポート</h3>
+        <p>設定完了後、スタッフ向けに基本操作のご説明を行い、スムーズな立ち上げを支援します。</p>
+      </div>
+      <div class="service-card">
+        <div class="icon">📞</div>
+        <h3>導入後のフォローアップ</h3>
+        <p>運用開始後も電話・メールでお問い合わせいただけます。安心してご利用いただけます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FLOW ===== -->
+<section class="flow" id="flow">
+  <div class="container">
+    <div class="section-label">ご利用の流れ</div>
+    <h2 class="section-title">お申し込みから<span>運用開始まで</span></h2>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="step-num-wrap"><div class="step-circle"><span class="step-n">1</span>STEP</div></div>
+        <div class="step-body">
+          <h3>お問い合わせ・ご相談（無料）</h3>
+          <p>まずはお問い合わせフォームまたはお電話にてご連絡ください。現在のご状況やご希望をヒアリングし、最適なサポートプランをご提案します。費用のご説明も無料で行います。</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num-wrap"><div class="step-circle"><span class="step-n">2</span>STEP</div></div>
+        <div class="step-body">
+          <h3>お申し込み・契約手続き</h3>
+          <p>ご納得いただけましたら、サービス利用申込書にご署名いただきます。ご不明点があれば、この段階でいつでもご質問いただけます。</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num-wrap"><div class="step-circle"><span class="step-n">3</span>STEP</div></div>
+        <div class="step-body">
+          <h3>事前ヒアリング・情報収集</h3>
+          <p>設定に必要な施設情報・利用者情報・スタッフ情報などをご提供いただきます。専用のシートでご案内しますので、記入していただくだけで準備が完了します。</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num-wrap"><div class="step-circle"><span class="step-n">4</span>STEP</div></div>
+        <div class="step-body">
+          <h3>初期設定作業の実施</h3>
+          <p>弊社スタッフが設定作業を代行します。リモートまたは訪問にて対応可能です。作業進捗は随時ご報告しますので、状況をリアルタイムで把握できます。</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num-wrap"><div class="step-circle"><span class="step-n">5</span>STEP</div></div>
+        <div class="step-body">
+          <h3>動作確認・操作説明</h3>
+          <p>設定完了後、すべての機能が正常に動作することを確認します。あわせて基本的な操作方法をスタッフ向けにご説明し、疑問点を解消します。</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num-wrap"><div class="step-circle"><span class="step-n">6</span>STEP</div></div>
+        <div class="step-body">
+          <h3>運用開始・アフターサポート</h3>
+          <p>運用を開始します。開始後もお困りの際はいつでもご相談ください。安定した運用が定着するまで、継続的にサポートします。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICE ===== -->
+<section class="price" id="price">
+  <div class="container">
+    <div class="section-label">料金表</div>
+    <h2 class="section-title">サービス<span>料金一覧</span></h2>
+    <div class="price-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>プラン・サービス内容</th>
+            <th>対象</th>
+            <th>料金（税込）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>初期設定スタンダードプラン<br><small style="color:#888;">アカウント設定・端末設定・マスタ登録・操作説明を含む基本セット</small></td>
+            <td>事業所単位（1施設）</td>
+            <td>55,000円〜</td>
+          </tr>
+          <tr>
+            <td>初期設定プレミアムプラン<br><small style="color:#888;">スタンダードに加え、既存システム連携確認・訪問サポートを含む</small></td>
+            <td>事業所単位（1施設）</td>
+            <td>88,000円〜</td>
+          </tr>
+          <tr>
+            <td>追加スタッフアカウント設定<br><small style="color:#888;">プランに含まれる範囲を超えるアカウント追加対応</small></td>
+            <td>1名あたり</td>
+            <td>1,100円〜</td>
+          </tr>
+          <tr>
+            <td>アフターサポート（月次フォロー）<br><small style="color:#888;">運用開始後の定期確認・問い合わせ対応（月1回）</small></td>
+            <td>1施設あたり</td>
+            <td>5,500円／月</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="price-note">
+      <ul>
+        <li>料金は施設規模や設定内容により変動する場合があります。詳細はお問い合わせください。</li>
+        <li>複数施設をお申し込みの場合、割引対応が可能です。お気軽にご相談ください。</li>
+        <li>表示価格はすべて税込です。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-label">よくある質問</div>
+    <h2 class="section-title">お客様からの<span>よくあるご質問</span></h2>
+    <div class="faq-list">
+      <details>
+        <summary>介護情報基盤とはどのようなシステムですか？</summary>
+        <div class="faq-answer">介護情報基盤は、国が推進する介護分野のデジタル化施策の一環として整備された情報共有プラットフォームです。利用者の介護情報を関係機関間で安全に共有し、より質の高いケアの実現と業務効率化を目的としています。すでに多くの介護事業所での導入が進んでいます。</div>
+      </details>
+      <details>
+        <summary>ITが得意でないスタッフでも利用できますか？</summary>
+        <div class="faq-answer">はい、問題ありません。弊社では設定完了後に操作説明をわかりやすく行っております。基本的な操作は直感的に行えるよう工夫されており、ITに不慣れなスタッフの方でも安心してお使いいただけます。不明点があれば導入後もいつでもご相談いただけます。</div>
+      </details>
+      <details>
+        <summary>設定作業はどのくらいの期間かかりますか？</summary>
+        <div class="faq-answer">施設規模や対応内容によって異なりますが、標準的な設定であればお申し込みから約2〜4週間で完了します。スケジュールについては事前のヒアリング時に詳しくご案内しますので、期限がある場合もご相談ください。</div>
+      </details>
+      <details>
+        <summary>訪問での対応は可能ですか？リモートのみですか？</summary>
+        <div class="faq-answer">リモートでの設定代行を基本としておりますが、プレミアムプランまたはオプションにて施設への訪問対応も承っております。訪問エリアについては個別にご確認ください。まずはお気軽にご相談ください。</div>
+      </details>
+      <details>
+        <summary>すでに利用している介護ソフトとの連携はできますか？</summary>
+        <div class="faq-answer">多くの主要介護ソフトとの連携確認に対応しております。ご利用中のシステムをお知らせいただければ、連携の可否や設定方法についてご案内いたします。連携設定もプレミアムプランでサポートしております。</div>
+      </details>
+      <details>
+        <summary>複数の施設をまとめてお願いすることはできますか？</summary>
+        <div class="faq-answer">はい、複数施設の一括対応も承っております。施設数が多い場合には割引料金でご提供できる場合がありますので、まとめてご相談いただくことをお勧めします。法人・グループ施設様のお問い合わせもお気軽にどうぞ。</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="section-label">お問い合わせ</div>
+    <h2 class="section-title">まずはお気軽に<span style="color:#fcd34d;">ご相談ください</span></h2>
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <h3>株式会社スマート<br>介護情報基盤サポート窓口</h3>
+        <p>介護情報基盤の初期設定に関するご相談は、いつでも無料で承っております。「何から始めればよいかわからない」という段階でも、ぜひお気軽にご連絡ください。専門スタッフが丁寧にご対応いたします。</p>
+        <div class="contact-tel">
+          <div class="tel-label">お電話でのお問い合わせ</div>
+          <div class="tel-num">0120-XXX-XXX</div>
+          <div class="tel-hours">受付時間：平日 9:00〜17:00（土日祝休）</div>
+        </div>
+      </div>
+      <form action="#" method="post">
+        <div class="form-group">
+          <label>施設・法人名 <span class="required">必須</span></label>
+          <input type="text" name="company" placeholder="例：○○介護施設" required>
+        </div>
+        <div class="form-group">
+          <label>ご担当者名 <span class="required">必須</span></label>
+          <input type="text" name="name" placeholder="例：田中 太郎" required>
+        </div>
+        <div class="form-group">
+          <label>メールアドレス <span class="required">必須</span></label>
+          <input type="email" name="email" placeholder="例：info@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>電話番号</label>
+          <input type="tel" name="tel" placeholder="例：03-0000-0000">
+        </div>
+        <div class="form-group">
+          <label>ご興味のあるプラン</label>
+          <select name="plan">
+            <option value="">-- 選択してください --</option>
+            <option value="standard">スタンダードプラン</option>
+            <option value="premium">プレミアムプラン</option>
+            <option value="other">その他・未定</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>お問い合わせ内容</label>
+          <textarea name="message" placeholder="ご質問・ご要望など、お気軽にお書きください。"></textarea>
+        </div>
+        <button type="submit" class="form-submit">送信する</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-logo">株式会社スマート</div>
+  <div class="footer-links">
+    <a href="#problems">よくあるお悩み</a>
+    <a href="#features">選ばれる理由</a>
+    <a href="#service">サービス内容</a>
+    <a href="#flow">ご利用の流れ</a>
+    <a href="#price">料金表</a>
+    <a href="#faq">よくある質問</a>
+    <a href="#contact">お問い合わせ</a>
+  </div>
+  <div class="footer-copy">&copy; 2024 株式会社スマート. All Rights Reserved.</div>
+</footer>
+
+</body>
+</html>
